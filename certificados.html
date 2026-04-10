@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certificados — Imposto de Renda 2026 na Prática</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c8a84b; --gold-dark: #8a6f28;
+      --cream: #fdf8ee; --cream-dark: #f0e8d0;
+      --ink: #1a1208; --ink-soft: #4a3c20;
+    }
+    body { background-color: var(--cream); font-family: 'Lato', sans-serif; color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(200,168,75,.08) 39px, rgba(200,168,75,.08) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(200,168,75,.06) 39px, rgba(200,168,75,.06) 40px);
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse at top left, rgba(200,168,75,.12) 0%, transparent 50%),
+                  radial-gradient(ellipse at bottom right, rgba(200,168,75,.10) 0%, transparent 50%);
+    }
+    .wrapper { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 60px 24px 80px; }
+    header { text-align: center; margin-bottom: 48px; animation: fadeDown .7s ease both; }
+    .seal {
+      width: 72px; height: 72px; margin: 0 auto 20px;
+      border: 3px solid var(--gold); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; color: var(--gold); background: var(--cream-dark);
+      box-shadow: 0 0 0 6px var(--cream), 0 0 0 8px var(--gold-dark);
+    }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 18px auto; max-width: 520px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--gold-dark), transparent); }
+    .divider span { color: var(--gold); font-size: 18px; line-height: 1; }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 3.5vw, 1.8rem); font-weight: 700; color: var(--ink); line-height: 1.4; max-width: 640px; margin: 0 auto; }
+    .subtitle { margin-top: 10px; font-size: .85rem; color: var(--ink-soft); font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
+    .search-wrap { position: relative; margin-bottom: 36px; animation: fadeUp .7s .2s ease both; }
+    .search-wrap svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--gold-dark); pointer-events: none; }
+    #search { width: 100%; padding: 16px 18px 16px 50px; border: 1.5px solid var(--gold); border-radius: 4px; background: #fff; font-family: 'Lato', sans-serif; font-size: 1rem; color: var(--ink); outline: none; transition: border-color .25s, box-shadow .25s; box-shadow: 0 2px 12px rgba(200,168,75,.1); }
+    #search::placeholder { color: #b8a882; }
+    #search:focus { border-color: var(--gold-dark); box-shadow: 0 4px 20px rgba(200,168,75,.2); }
+    .count { font-size: .82rem; color: var(--ink-soft); margin-bottom: 14px; letter-spacing: .03em; animation: fadeUp .7s .3s ease both; }
+    .count strong { color: var(--gold-dark); }
+    #list { list-style: none; display: flex; flex-direction: column; gap: 10px; animation: fadeUp .7s .35s ease both; }
+    #list li { background: #fff; border: 1px solid var(--cream-dark); border-left: 4px solid var(--gold); border-radius: 4px; transition: transform .18s, box-shadow .18s, border-left-color .18s; }
+    #list li:hover { transform: translateX(4px); box-shadow: 0 4px 18px rgba(200,168,75,.18); border-left-color: var(--gold-dark); }
+    #list a { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; text-decoration: none; color: var(--ink); gap: 16px; }
+    .name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; }
+    .badge { display: flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-dark); white-space: nowrap; padding: 4px 10px; border: 1px solid var(--gold); border-radius: 2px; background: var(--cream); }
+    .empty { text-align: center; padding: 50px 20px; color: var(--ink-soft); display: none; }
+    .empty .icon { font-size: 40px; margin-bottom: 12px; }
+    .empty p { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    footer { text-align: center; margin-top: 60px; font-size: .78rem; color: #b8a882; letter-spacing: .05em; }
+    mark { background: #fff0b0; color: inherit; border-radius: 2px; padding: 0 1px; }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 480px) { .badge span { display: none; } .badge { padding: 4px 8px; } }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <div class="seal">🎓</div>
+    <h1>Imposto de Renda 2026 na Prática: como declarar, evitar erros e entender o papel do contador</h1>
+    <div class="divider"><span>✦</span></div>
+    <p class="subtitle">Centro Universitário Moura Lacerda</p>
+    <p style="font-size:.9rem;color:var(--ink-soft);max-width:480px;margin:12px auto 0;line-height:1.6;">
+      Pesquise seu nome abaixo e clique para baixar o seu certificado em PDF.
+    </p>
+  </header>
+
+  <div class="search-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input id="search" type="text" placeholder="Digite seu nome..." autocomplete="off" />
+  </div>
+
+  <p class="count">Mostrando <strong id="shown">0</strong> de <strong id="total">0</strong> participantes</p>
+  <ul id="list"></ul>
+  <div class="empty" id="empty">
+    <div class="icon">🔍</div>
+    <p>Nenhum participante encontrado.</p>
+    <small>Verifique se o nome está correto.</small>
+  </div>
+
+  <footer>Centro Universitário Moura Lacerda · <span id="year"></span></footer>
+</div>
+
+<script>
+  const BASE = "https://contabeis2026.github.io/certificados-ir-2026/";
+
+  const participantes = [
+    "Ana Clara Santos Firmiano",
+    "Ana Julia Oliveira de Carvalho",
+    "Ana Júlia Ramos Frequete",
+    "André Tagliacolli",
+    "Anna Laura Machado Soares",
+    "Arthur Bortoleto Gonçalves",
+    "Arthur Gustavo Andrade Alves",
+    "Beatriz Dias da Silveira",
+    "Breno Bonine Scarpim",
+    "Caio Enoki Kakunaka",
+    "Camila Menezes Almeida",
+    "Camila Oliveira Alcantara",
+    "Caroline Louise Milani Soares",
+    "Christopher Figueiredo Lima",
+    "Clara de Oliveira Bolsonaro",
+    "David Lucas Brito Gomes",
+    "Edson Ricardo de Souza",
+    "Eduardo Parreira Xelegati",
+    "Evely Carvalho de Oliveira",
+    "Evelyn Gabrielly Carvalho Siqueira",
+    "Gabriel Inácio",
+    "Gabriela Lourenço Minto",
+    "Gabrielle Dos Santos",
+    "Gabriely de Freitas",
+    "Guilherme Barbosa Sant'Ana",
+    "Guilherme Henrique Vanseli Antonio",
+    "Heitor Vieira dos Santos",
+    "Heloísa Fernanda de Luna Marcolino",
+    "Henrique de Souza Carvalho",
+    "Isabela Martins Dutra",
+    "Isabela Morita Moretto",
+    "Isabella Oliveira do Nascimento",
+    "Isadora Souza Pinheiro",
+    "Jacqueline Cristine Silva Campos Faria",
+    "Jéssica Amanda Ventreschi",
+    "João Pedro Compachiari Mendes",
+    "João Pedro Feliciano da Silva",
+    "João Victor de Souza Mendes",
+    "Kayky Carvalho Dias",
+    "Lana Beatriz Vianna Pereira Mendes",
+    "Larissa Viale",
+    "Leonardo Henrique Ribas de Souza",
+    "Livia da Silva",
+    "Lorraine Karolaine Silva de Paula",
+    "Lucas da Silva Figueiredo",
+    "Luis Fernando da Silva Gonçalves",
+    "Luis Gustavo Robin dos Santos",
+    "Maria Eduarda Silva Barros",
+    "Maria Júlia Viccari Paris",
+    "Maria Vitória Caldeira Nogueira",
+    "Mariana Dantas Túnis",
+    "Marina Martins Paim",
+    "Mario Alves Borges",
+    "Matheus Carvalho Campos",
+    "Melissa Cruz Bertholetti",
+    "Miguel Vieira Borges",
+    "Murilo Rigobello",
+    "Murillo Lira de Jesus",
+    "Otávio Victorelli Medeiros",
+    "Pablo Morais de Pádua",
+    "Pamela Helena da Silva",
+    "Paulo Malvestio Mantovan Neto",
+    "Pedro Henrique Portela Silva",
+    "Pedro Henriques Barbi",
+    "Pedro Paulo Corrêa de Medeiros",
+    "Raphael Lopes dos Santos",
+    "Rodrigo Silva Moretti de Freitas",
+    "Rodrigo Volpe da Silva",
+    "Samuel de Almeida Trevisani",
+    "Sergio Henrique Festucci",
+    "Victoria Ananias de Carvalho",
+    "Vitor Antônio de Jesus",
+    "Vitória Helena Boldrin",
+  ];
+
+  const list  = document.getElementById('list');
+  const empty = document.getElementById('empty');
+  const search = document.getElementById('search');
+  const shown = document.getElementById('shown');
+  const total = document.getElementById('total');
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+  total.textContent = participantes.length;
+
+  function normalize(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+  function highlight(text, query) {
+    if (!query) return text;
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(regex, '<mark>$1</mark>');
+  }
+
+  function render(query = '') {
+    const q = normalize(query.trim());
+    const filtered = participantes.filter(n => normalize(n).includes(q));
+    list.innerHTML = '';
+    filtered.forEach((nome, i) => {
+      const link = BASE + encodeURIComponent(nome) + ".pdf";
+      const li = document.createElement('li');
+      li.style.animation = 'fadeUp .35s ease both';
+      li.style.animationDelay = `${i * 0.03}s`;
+      li.innerHTML = `
+        <a href="${link}" target="_blank" rel="noopener">
+          <span class="name">${highlight(nome, query.trim())}</span>
+          <span class="badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Baixar</span>
+          </span>
+        </a>`;
+      list.appendChild(li);
+    });
+    shown.textContent = filtered.length;
+    empty.style.display = filtered.length === 0 ? 'block' : 'none';
+  }
+
+  search.addEventListener('input', e => render(e.target.value));
+  render();
+</script>
+</body>
+</html>
